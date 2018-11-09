@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import Datastore from 'nedb'
 
-import List from '../list/ListWrapper'
 import EditorWrapper from '../editorWrapper/EditorWrapper'
-import List from '../listWrapper/ListWrapper'
+import ListWrapper from '../listWrapper/ListWrapper'
 import '../../App.css'
 
 const dbMemos = new Datastore({ filename: 'memos.db', inMemoryOnly: false, autoload: true, timestampData: true })
@@ -19,6 +18,14 @@ class Base extends Component {
       }
     })
 
+    this.state = {
+      memos: [
+        { id: "1", name: "nimi", tags: "test,test2,test3", content: "tekstiä tekstiä tekstiä tekstiä"},
+        { id: "2", name: "nimi 2", tags: "test,test2,test3", content: "tekstiä tekstiä tekstiä tekstiä"},
+        { id: "3", name: "nimi 33333", tags: "test,test2,test3", content: "tekstiä tekstiä tekstiä tekstiä"}
+      ]
+    }
+
 
 
   }
@@ -26,7 +33,7 @@ class Base extends Component {
   clicked() {
     console.log("clocked")
     dbMemos.insert({name: 'memo', data: '123123123̈́', tags: ["tagi1", "tagi2", "tagi3"]});
-    dbMemos.insert({name: 'memo2', data: '123123123̈́', tags: ["tagi1", "tagi2"]});
+    dbMemos.insert({name: 'memo2', data: '123123123̈́', tags: ["tagi1", "tagi2"], active: true});
     dbMemos.insert({name: 'memo3', data: '123123123̈́', tags: ["tagi2", "tagi3"]});
     dbMemos.insert({name: 'memo4', data: '123123123̈́', tags: ["tagi1", "tagi3"]});
   }
@@ -40,11 +47,17 @@ class Base extends Component {
 
   componentDidMount() {
 
+    console.log("component did mount")
     this.findActiveMemo((activeMemo) => {
+      console.log("found active memo", activeMemo)
       this.setActiveMemo(activeMemo)
     });
 
-    dbMemos.getAllData()
+
+    dbMemos.getAllData((data, error) => {
+      console.log("data", data)
+      console.log("error", error)
+    })
 
   }
 
@@ -74,6 +87,7 @@ class Base extends Component {
   }
 
   saveMemo(memo, errorCallback) {
+    console.debug("Saving memo", memo)
     dbMemos.insert(memo, function(error, newDocs) {
       if (error) {
         errorCallback(error);
@@ -83,39 +97,18 @@ class Base extends Component {
   }
 
   findActiveMemo(callback) {
-    dbDemos.find({ active: true }, (err, data) => {
-      callback(data)
+    console.debug("Finding active memo")
+    dbMemos.find({ active: true }, (err, data) => {
+      if (data.length > 0) {
+        callback(data[0])
+      }
     })
-  }
-
-
-  constructor(props){
-    super(props);
-    this.state = {
-        memos: [
-            { id: "1", name: "nimi", tags: "test,test2,test3", content: "tekstiä tekstiä tekstiä tekstiä"},
-            { id: "2", name: "nimi 2", tags: "test,test2,test3", content: "tekstiä tekstiä tekstiä tekstiä"},
-            { id: "3", name: "nimi 33333", tags: "test,test2,test3", content: "tekstiä tekstiä tekstiä tekstiä"}
-        ]
-    }
-  }
-
-  componentDidMount(){
-      // fetchMemos();
-  }
-
-  fetchMemos = () => {
-      // ota yhteys kantaan? tjsp
-      // lisää memot stateen or something
   }
 
   render() {
     return (
         <div className="notesBase">
-          <button onClick={this.clicked}>add</button>
-          <button onClick={() => this.findMemosByTagNames(["tagi2"], (tags) => {console.log("tags", tags)})}>222</button>
-          <button onClick={this.clicked3}>print all</button>
-          <List
+          <ListWrapper
               findMemosByTag={this.findMemosByTagNames.bind()}
               saveMemo={this.saveMemo.bind()}
               setActiveMemo={this.setActiveMemo.bind()}

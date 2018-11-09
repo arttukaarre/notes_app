@@ -7,6 +7,21 @@ let mainWindow
 const path = require('path')
 const url = require('url')
 
+
+// TODO: MOVE DB CALLS HERE -> CREATE REST API FOR REACT
+/*let Datastore = require('nedb')
+    , db = new Datastore({ filename: './datastore.db' })
+
+db.loadDatabase((err) => {
+  if(err) {
+    console.log(err);
+  }
+});
+
+db.insert({name: "MEMO", data: "!qweqwe"})
+
+console.log(db.getAllData());*/
+
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600})
@@ -14,7 +29,7 @@ function createWindow () {
   mainWindow.loadURL('http://localhost:3000');
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {

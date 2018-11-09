@@ -4,6 +4,7 @@
   "main": "src/main.js",
   "private": true,
   "dependencies": {
+    "nedb": "^1.8.0",
     "react": "^16.6.1",
     "react-customize-token-input": "^0.5.2",
     "react-dom": "^16.6.1",
