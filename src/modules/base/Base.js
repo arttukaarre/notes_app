@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import EditorWrapper from '../editor/EditorWrapper'
 import List from '../list/ListWrapper'
+import '../../App.css'
 
 class Base extends Component {
 
@@ -11,8 +12,7 @@ class Base extends Component {
 
   render() {
     return (
-        <div className="notes_base">
-          wrapper!
+        <div className="notesBase">
           <List
               memos="data"
           />

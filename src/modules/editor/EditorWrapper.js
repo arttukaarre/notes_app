@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import '../../App.css'
 
 class EditorWrapper extends Component {
 
 
   render() {
     return (
-        <div>
+        <div className="editorWrapper">
           editor!
           {/*<Title>
 

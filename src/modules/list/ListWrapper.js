@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../../App.css'
 
 class ListWrapper extends Component {
 
@@ -9,7 +10,7 @@ class ListWrapper extends Component {
 
   render() {
     return (
-        <div className="notes_base">
+        <div className="listWrapper">
           list!
         </div>
     );
