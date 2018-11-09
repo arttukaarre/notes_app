@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
+import TokenInput from 'react-customize-token-input';
 
 class TagContainer extends Component {
 
-  render() {
-    return (
-        <div className="tagContainer">
-          <p>TAGS GO HERE FRIEND</p>
-        </div>
-    );
-  }
+    render() {
+        return (
+            <div className="tagContainer">
+                <TokenInput />
+            </div>
+        );
+    }
 }
 
 export default TagContainer;

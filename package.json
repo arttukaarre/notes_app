@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "react": "^16.6.1",
+    "react-customize-token-input": "^0.5.2",
     "react-dom": "^16.6.1",
     "react-scripts": "2.1.1"
   },

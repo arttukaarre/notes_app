@@ -5,9 +5,7 @@ class Editor extends Component {
   render() {
     return (
         <div className="editor">
-          <textarea>
-
-          </textarea>
+          <textarea className="editorTextarea"/>
         </div>
     );
   }
