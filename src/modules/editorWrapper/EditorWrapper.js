@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
 import TagContainer from '../tagContainer/TagContainer';
 import Title from '../title/Title';
+import Editor from '../editor/Editor';
 import '../../App.css';
 
 class EditorWrapper extends Component {
 
+  constructor(props){
+    super(props);
+    this.state = {
+      title: "",
+      tags: "",
+      body: ""
+    }
+  }
 
   render() {
     return (
@@ -12,13 +21,7 @@ class EditorWrapper extends Component {
           editor!
           <Title title={this.props.title}/>
           <TagContainer/>
-
-          {/*<Title>
-
-          </Title>
-          <TagsContainer>
-          </TagsContainer>
-          <Editor></Editor>*/}
+          <Editor/>
         </div>
     );
   }

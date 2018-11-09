@@ -1,3 +1,19 @@
+.notesBase {
+    height: 100vh; /* fill window vertically */
+}
+
+.editorWrapper {
+    width: 60%;
+    height: 100%;
+    float: right;
+}
+  
+.listWrapper {
+    width: 40%;
+    height: 100%;
+    float:left;
+}
+
 .listEntry {
     border-bottom-style: solid;
     border-width: 1px;
@@ -6,3 +22,14 @@
 .listEntry:hover {
     background-color: lightgray;
 }
+
+textarea {
+    font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+    resize: none;
+    width: 100%;
+    height: 100%;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+}
+  
