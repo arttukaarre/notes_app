@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Datastore from 'nedb'
 
-import EditorWrapper from '../editor/EditorWrapper'
 import List from '../list/ListWrapper'
+import EditorWrapper from '../editorWrapper/EditorWrapper'
+import List from '../listWrapper/ListWrapper'
 import '../../App.css'
 
 const dbMemos = new Datastore({ filename: 'memos.db', inMemoryOnly: false, autoload: true, timestampData: true })
@@ -43,11 +44,8 @@ class Base extends Component {
       this.setActiveMemo(activeMemo)
     });
 
-    let newState = {
-      memos: dbMemos.getAllData()
-    }
+    dbMemos.getAllData()
 
-    this.setState(newState)
   }
 
   setActiveMemo(activeMemo) {
@@ -91,6 +89,26 @@ class Base extends Component {
   }
 
 
+  constructor(props){
+    super(props);
+    this.state = {
+        memos: [
+            { id: "1", name: "nimi", tags: "test,test2,test3", content: "tekstiä tekstiä tekstiä tekstiä"},
+            { id: "2", name: "nimi 2", tags: "test,test2,test3", content: "tekstiä tekstiä tekstiä tekstiä"},
+            { id: "3", name: "nimi 33333", tags: "test,test2,test3", content: "tekstiä tekstiä tekstiä tekstiä"}
+        ]
+    }
+  }
+
+  componentDidMount(){
+      // fetchMemos();
+  }
+
+  fetchMemos = () => {
+      // ota yhteys kantaan? tjsp
+      // lisää memot stateen or something
+  }
+
   render() {
     return (
         <div className="notesBase">
@@ -101,7 +119,7 @@ class Base extends Component {
               findMemosByTag={this.findMemosByTagNames.bind()}
               saveMemo={this.saveMemo.bind()}
               setActiveMemo={this.setActiveMemo.bind()}
-              memos={dbMemos.getAllData()}
+              memos={this.state.memos}
           />
           <EditorWrapper
               memo={this.state.activeMemo}

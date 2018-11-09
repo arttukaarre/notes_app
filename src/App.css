@@ -30,12 +30,3 @@
     transform: rotate(360deg);
   }
 }
-
-.editorWrapper {
-  width: 60%;
-}
-
-.listWrapper {
-  width: 40%;
-  float:left;
-}
