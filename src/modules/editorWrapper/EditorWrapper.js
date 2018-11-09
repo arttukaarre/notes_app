@@ -18,7 +18,6 @@ class EditorWrapper extends Component {
   render() {
     return (
         <div className="editorWrapper">
-          editor!
           <Title title={this.props.title}/>
           <TagContainer/>
           <Editor/>

@@ -5,8 +5,8 @@ class Title extends Component {
 
   render() {
     return (
-        <div className="title">
-          <textarea></textarea>
+        <div className="titleContainer">
+          <textarea className="titleTextarea"></textarea>
         </div>
     );
   }
