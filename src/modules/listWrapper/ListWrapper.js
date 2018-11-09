@@ -18,7 +18,7 @@ class ListWrapper extends Component {
         {
           this.props.memos && this.props.memos.map((elem, index) => {
             return (
-              <ListEntry id={elem.id} name={elem.name} modifyDate={elem.modifyDate}/>
+              <ListEntry key={index} id={elem.id} name={elem.name} modifyDate={elem.modifyDate}/>
             )
           })
         }

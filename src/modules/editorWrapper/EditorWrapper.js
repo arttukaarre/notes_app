@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import '../../App.css'
+import TagContainer from '../tagContainer/TagContainer';
+import Title from '../title/Title';
+import '../../App.css';
 
 class EditorWrapper extends Component {
 
@@ -8,6 +10,9 @@ class EditorWrapper extends Component {
     return (
         <div className="editorWrapper">
           editor!
+          <Title title={this.props.title}/>
+          <TagContainer/>
+
           {/*<Title>
 
           </Title>
