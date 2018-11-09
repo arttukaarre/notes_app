@@ -1,0 +1,8 @@
+.listEntry {
+    border-bottom-style: solid;
+    border-width: 1px;
+}
+
+.listEntry:hover {
+    background-color: lightgray;
+}

@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
+import ListEntry from '../listEntry/ListEntry';
 import '../../App.css'
 
 class ListWrapper extends Component {
 
-  // fetch memos
+  componentDidMount(){
 
-  // figure out active memo
+  }
 
+  sort(){
+
+  }
 
   render() {
     return (
         <div className="listWrapper">
-          list!
+        {
+          this.props.memos && this.props.memos.map((elem, index) => {
+            return (
+              <ListEntry id={elem.id} name={elem.name} modifyDate={elem.modifyDate}/>
+            )
+          })
+        }
         </div>
     );
   }
