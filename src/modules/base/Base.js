@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Datastore from 'nedb';
+import Datastore from 'nedb'
 
-import EditorWrapper from '../editorWrapper/EditorWrapper';
-import ListWrapper from '../listWrapper/ListWrapper';
-import '../../App.css';
+import EditorWrapper from '../editorWrapper/EditorWrapper'
+import ListWrapper from '../listWrapper/ListWrapper'
+import '../../App.css'
 
 const dbMemos = new Datastore({ filename: 'memos.db', inMemoryOnly: false, autoload: true, timestampData: true })
 
@@ -77,10 +77,36 @@ class Base extends Component {
   saveMemo = (memo, errorCallback) => {
     console.debug("Saving memo", memo);
 
-    dbMemos.update({ _id: memo.id }, memo, function(error, newDocs) {
+    dbMemos.update({ _id: memo._id }, { $set: { title: memo.title, data: memo.data, tags: memo.tags }}, function(error, newDocs) {
       if (error) {
         errorCallback(error);
       }
+
+      console.log(error)
+
+      console.log(newDocs, "newdocs")
+
+      console.debug("Saved a new memo - ", newDocs)
+      console.log("setting new state memos")
+
+      let newMemos = this.state.memos;
+      console.log(newMemos);
+
+      for (let i = 0; i < newMemos.length; i++) {
+        if (newMemos[i]._id === memo._id) {
+          newMemos[i] = memo;
+        }
+      }
+
+      this.setState({memos: newMemos})
+
+    }.bind(this))
+  }
+
+  createMemo = (memo) => {
+    console.debug("Saving memo", memo);
+
+    dbMemos.insert(memo, function(error, newDocs) {
 
       console.debug("Saved a new memo - ", newDocs)
       console.log("setting new state memos")
@@ -89,7 +115,9 @@ class Base extends Component {
         memos: [...prevState.memos, memo]
       }))
 
+
     }.bind(this))
+
   }
 
   findActiveMemo = (callback) => {
@@ -114,6 +142,7 @@ class Base extends Component {
               className={"listWrapper"}
               filterMemosByTagNames={this.filterMemosByTagNames}
               saveMemo={this.saveMemo}
+              createMemo={this.createMemo}
               findAllMemos={this.findAllMemos}
               setActiveMemo={this.setActiveMemo}
               removeAllMemos={this.removeAllMemos}
