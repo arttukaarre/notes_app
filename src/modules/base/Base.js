@@ -69,11 +69,13 @@ class Base extends Component {
     dbMemos.find({
           $where: function () {
             for (let i = 0; i < tags.length; i++) {
-              if (this.tags.indexOf(tags[i]) === -1){
-                return false;
+              for (let j = 0; j < this.tags.length; j++) {
+                if (this.tags[j].indexOf(tags[i]) > -1){
+                  return true;
+                }
               }
             }
-            return true;
+            return false;
           }},
         (err, data) => {
           console.debug("Searched memos with tags: ", tags);

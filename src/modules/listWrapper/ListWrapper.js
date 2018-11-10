@@ -14,9 +14,11 @@ class ListWrapper extends Component {
   }
 
   render() {
-    this.props.memos.sort(function(a, b) {
-      return a.title > b.title;
-    })
+    if (this.props.memos && this.props.memos.length > 0) {
+      this.props.memos.sort(function (a, b) {
+        return a.title > b.title;
+      })
+    }
 
     // Create a memo with 2 random tags from "tag1...tag4"
     let random = Math.floor(Math.random() * 4) + 1;
