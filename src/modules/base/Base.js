@@ -52,7 +52,7 @@ class Base extends Component {
     this.setState({activeMemo});
   }
 
-  findMemosByTagNames = (tags, callback) => {
+  filterMemosByTagNames = (tags, callback) => {
     if (!Array.isArray(tags)){
       tags = [tags]
     }
@@ -74,9 +74,9 @@ class Base extends Component {
   }
 
   saveMemo = (memo, errorCallback) => {
-    console.debug("Saving memo", memo)
+    console.debug("Saving memo", memo);
 
-    dbMemos.insert(memo, function(error, newDocs) {
+    dbMemos.update({ id: memo.id }, memo, function(error, newDocs) {
       if (error) {
         errorCallback(error);
       }
@@ -106,10 +106,12 @@ class Base extends Component {
   }
 
   render() {
+
     return (
         <div className="notesBase">
           <ListWrapper
-              findMemosByTagNames={this.findMemosByTagNames.bind()}
+              className={"listWrapper"}
+              filterMemosByTagNames={this.filterMemosByTagNames.bind()}
               saveMemo={this.saveMemo.bind()}
               findAllMemos={this.findAllMemos.bind()}
               setActiveMemo={this.setActiveMemo.bind()}
