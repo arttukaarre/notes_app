@@ -21,6 +21,7 @@ class Base extends Component {
     this.state = {
       memos: [],
       filteredMemos: [],
+      filterString: "",
       activeMemo: {},
       activeMemoId: ""
     }
@@ -53,8 +54,14 @@ class Base extends Component {
   setActiveMemo = (activeMemo) => {
     this.setState({activeMemo: activeMemo});
   }
-
+1
   filterMemosByTagNames = (tags) => {
+
+    if (tags === "") {
+      this.setState({filteredMemos: this.state.memos})
+      return
+    }
+
     if (!Array.isArray(tags)){
       tags = [tags]
     }
@@ -72,14 +79,15 @@ class Base extends Component {
           console.debug("Searched memos with tags: ", tags);
           console.debug("Found memos: ", data);
           //callback(data);
-          this.setState({filteredMemos: data})
+          this.setState({filteredMemos: data, filterString: tags})
+
         })
   }
 
   saveMemo = (memo, errorCallback) => {
     console.debug("Saving memo", memo);
 
-    dbMemos.update({ _id: memo._id }, { $set: { title: memo.title, data: memo.data, tags: memo.tags }}, function(error, newDocs) {
+    dbMemos.update({ _id: memo._id }, { $set: { title: memo.title, data: memo.data, tags: memo.tags }}, (error, newDocs) => {
       if (error) {
         errorCallback(error);
       }
@@ -102,23 +110,23 @@ class Base extends Component {
 
       this.setState({memos: newMemos})
 
-    }.bind(this))
+    })
   }
 
   createMemo = (memo) => {
     console.debug("Saving memo", memo);
 
-    dbMemos.insert(memo, function(error, newDocs) {
+    dbMemos.insert(memo, (error, newDocs) => {
 
       console.debug("Saved a new memo - ", newDocs)
       console.log("setting new state memos")
 
-      this.setState(prevState => ({
-        memos: [...prevState.memos, memo]
-      }))
+      this.findAllMemos((docs) => {
+        this.setState({memos: docs})
+        this.filterMemosByTagNames(this.state.filterString)
+      })
 
-
-    }.bind(this))
+    })
 
   }
 
