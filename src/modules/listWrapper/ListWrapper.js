@@ -16,7 +16,9 @@ class ListWrapper extends Component {
 
   }
 
-  createAndSaveMemo(memos) {
+  render() {
+
+    // Create a memo with 2 random tags from "tag1...tag4"
     let random = Math.floor(Math.random() * 4) + 1;
     let random2 = Math.floor(Math.random() * 4) + 1;
     let go = false
@@ -27,30 +29,21 @@ class ListWrapper extends Component {
         go = true;
       }
     }
-    let memo = { title: "Memo title " + (memos.length + 2), data: "TEKSTIÄ TEKSTIÄ PALJON TEKSTIÄ", active: false, tags: ["tag"+random, "tag"+random2] }
-    this.props.saveMemo(memo);
-    let newMemos = this.props.memos
-  }
+    let memo = { title: "Memo title " + (this.props.memos.length + 1), data: "TEKSTIÄ TEKSTIÄ PALJON TEKSTIÄ", active: false, tags: ["tag"+random, "tag"+random2] }
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.memos !== this.props.memos) {
-      this.setState({memos: newProps.memos})
-    }
-  }
-
-  render() {
     return (
         <div className="listWrapper">
+          <button onClick={() => this.props.saveMemo(memo)}>add</button>
+          <button onClick={() => this.props.findMemosByTagNames(["tag2"], (memos) => {console.log("Found memos by tags: ", memos)})}>search by tags</button>
+          <button onClick={() => this.props.findAllMemos((memos) => { console.log(memos) })}>print all</button>
+          <button onClick={this.props.removeAllMemos}>remove all</button>
         {
           this.props.memos && this.props.memos.map((elem, index) => {
             return (
-              <ListEntry key={index} id={elem.id} name={elem.name} modifyDate={elem.modifyDate}/>
+              <ListEntry key={index} id={elem.id} name={elem.title} modifyDate={elem.modifyDate}/>
             )
           })
         }
-          <button onClick={() => this.createAndSaveMemo(this.props.memos)}>add</button>
-          <button onClick={() => this.props.findMemosByTagNames(["tagi2"], (tags) => {console.log("tags", tags)})}>search by tags</button>
-          <button onClick={this.clicked3}>print all</button>
         </div>
     );
   }

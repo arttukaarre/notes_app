@@ -19,31 +19,18 @@ class Base extends Component {
     })
 
     this.state = {
-      memos: [
-        { id: "1", name: "nimi", tags: "test,test2,test3", content: "tekstiä tekstiä tekstiä tekstiä"},
-        { id: "2", name: "nimi 2", tags: "test,test2,test3", content: "tekstiä tekstiä tekstiä tekstiä"},
-        { id: "3", name: "nimi 33333", tags: "test,test2,test3", content: "tekstiä tekstiä tekstiä tekstiä"}
-      ]
+      memos: []
     }
 
-
-
   }
 
-  clicked() {
-    console.log("clocked")
-    dbMemos.insert({name: 'memo', data: '123123123̈́', tags: ["tagi1", "tagi2", "tagi3"]});
-    dbMemos.insert({name: 'memo2', data: '123123123̈́', tags: ["tagi1", "tagi2"], active: true});
-    dbMemos.insert({name: 'memo3', data: '123123123̈́', tags: ["tagi2", "tagi3"]});
-    dbMemos.insert({name: 'memo4', data: '123123123̈́', tags: ["tagi1", "tagi3"]});
-  }
-
-  clicked3() {
+  findAllMemos(callback) {
     console.log("clocked3")
-    let data = dbMemos.getAllData()
-    console.log(data);
+    dbMemos.find({}, (err, memos) => {
+      console.debug("Searched for all memos: ", memos);
+      callback(memos)
+    })
   }
-
 
   componentDidMount() {
 
@@ -53,19 +40,19 @@ class Base extends Component {
       this.setActiveMemo(activeMemo)
     });
 
-
-    dbMemos.getAllData((data, error) => {
-      console.log("data", data)
-      console.log("error", error)
+    console.debug("Finding all data")
+    this.findAllMemos((data) => {
+      this.setState({ memos: data })
     })
+
 
   }
 
-  setActiveMemo(activeMemo) {
+  setActiveMemo = (activeMemo) => {
     this.setState({activeMemo});
   }
 
-  findMemosByTagNames(tags, callback) {
+  findMemosByTagNames = (tags, callback) => {
     if (!Array.isArray(tags)){
       tags = [tags]
     }
@@ -86,17 +73,25 @@ class Base extends Component {
         })
   }
 
-  saveMemo(memo, errorCallback) {
+  saveMemo = (memo, errorCallback) => {
     console.debug("Saving memo", memo)
+
     dbMemos.insert(memo, function(error, newDocs) {
       if (error) {
         errorCallback(error);
       }
+
       console.debug("Saved a new memo - ", newDocs)
-    });
+      console.log("setting new state memos")
+
+      this.setState(prevState => ({
+        memos: [...prevState.memos, memo]
+      }))
+
+    }.bind(this))
   }
 
-  findActiveMemo(callback) {
+  findActiveMemo = (callback) => {
     console.debug("Finding active memo")
     dbMemos.find({ active: true }, (err, data) => {
       if (data.length > 0) {
@@ -105,13 +100,20 @@ class Base extends Component {
     })
   }
 
+  removeAllMemos = () => {
+    dbMemos.remove({}, { multi: true })
+    this.setState({ memos: [] })
+  }
+
   render() {
     return (
         <div className="notesBase">
           <ListWrapper
-              findMemosByTag={this.findMemosByTagNames.bind()}
+              findMemosByTagNames={this.findMemosByTagNames.bind()}
               saveMemo={this.saveMemo.bind()}
+              findAllMemos={this.findAllMemos.bind()}
               setActiveMemo={this.setActiveMemo.bind()}
+              removeAllMemos={this.removeAllMemos.bind()}
               memos={this.state.memos}
           />
           <EditorWrapper
