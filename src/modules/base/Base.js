@@ -54,7 +54,7 @@ class Base extends Component {
   setActiveMemo = (activeMemo) => {
     this.setState({activeMemo: activeMemo});
   }
-1
+
   filterMemosByTagNames = (tags) => {
 
     if (tags === "") {
