@@ -9,11 +9,7 @@ class ListWrapper extends Component {
   }
 
   componentDidMount(){
-
-  }
-
-  sort(){
-
+    // fetch memos?
   }
 
   render() {
@@ -40,7 +36,7 @@ class ListWrapper extends Component {
         {
           this.props.memos && this.props.memos.map((elem, index) => {
             return (
-              <ListEntry key={index} id={elem.id} name={elem.title} modifyDate={elem.modifyDate}/>
+              <ListEntry memo={elem} setActiveMemo={this.props.setActiveMemo} key={index}/>
             )
           })
         }

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Datastore from 'nedb'
+import Datastore from 'nedb';
 
-import EditorWrapper from '../editorWrapper/EditorWrapper'
-import ListWrapper from '../listWrapper/ListWrapper'
-import '../../App.css'
+import EditorWrapper from '../editorWrapper/EditorWrapper';
+import ListWrapper from '../listWrapper/ListWrapper';
+import '../../App.css';
 
 const dbMemos = new Datastore({ filename: 'memos.db', inMemoryOnly: false, autoload: true, timestampData: true })
 
@@ -19,9 +19,10 @@ class Base extends Component {
     })
 
     this.state = {
-      memos: []
+      memos: [],
+      activeMemo: {},
+      activeMemoId: ""
     }
-
   }
 
   findAllMemos(callback) {
@@ -49,7 +50,7 @@ class Base extends Component {
   }
 
   setActiveMemo = (activeMemo) => {
-    this.setState({activeMemo});
+    this.setState({activeMemo: activeMemo});
   }
 
   filterMemosByTagNames = (tags, callback) => {
@@ -76,7 +77,7 @@ class Base extends Component {
   saveMemo = (memo, errorCallback) => {
     console.debug("Saving memo", memo);
 
-    dbMemos.update({ id: memo.id }, memo, function(error, newDocs) {
+    dbMemos.update({ _id: memo.id }, memo, function(error, newDocs) {
       if (error) {
         errorCallback(error);
       }
@@ -111,15 +112,16 @@ class Base extends Component {
         <div className="notesBase">
           <ListWrapper
               className={"listWrapper"}
-              filterMemosByTagNames={this.filterMemosByTagNames.bind()}
-              saveMemo={this.saveMemo.bind()}
-              findAllMemos={this.findAllMemos.bind()}
-              setActiveMemo={this.setActiveMemo.bind()}
-              removeAllMemos={this.removeAllMemos.bind()}
+              filterMemosByTagNames={this.filterMemosByTagNames}
+              saveMemo={this.saveMemo}
+              findAllMemos={this.findAllMemos}
+              setActiveMemo={this.setActiveMemo}
+              removeAllMemos={this.removeAllMemos}
               memos={this.state.memos}
           />
           <EditorWrapper
               memo={this.state.activeMemo}
+              saveMemo={this.saveMemo}
           />
         </div>
     );
