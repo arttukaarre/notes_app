@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ListEntry from '../listEntry/ListEntry';
 import '../../App.css'
+import SearchWrapper from "../search/SearchWrapper";
 
 class ListWrapper extends Component {
 
@@ -9,10 +10,13 @@ class ListWrapper extends Component {
   }
 
   componentDidMount(){
-    // fetch memos?
+
   }
 
   render() {
+    this.props.memos.sort(function(a, b) {
+      return a.title > b.title;
+    })
 
     // Create a memo with 2 random tags from "tag1...tag4"
     let random = Math.floor(Math.random() * 4) + 1;
@@ -29,10 +33,14 @@ class ListWrapper extends Component {
 
     return (
         <div className="listWrapper">
-          <button onClick={() => this.props.saveMemo(memo)}>add</button>
+          <button onClick={() => this.props.createMemo(memo, () => {})}>add</button>
           <button onClick={() => this.props.findMemosByTagNames(["tag2"], (memos) => {console.log("Found memos by tags: ", memos)})}>search by tags</button>
           <button onClick={() => this.props.findAllMemos((memos) => { console.log(memos) })}>print all</button>
           <button onClick={this.props.removeAllMemos}>remove all</button>
+          <SearchWrapper
+              filterMemosByTagNames={this.props.filterMemosByTagNames}
+              memos={this.props.memos}
+              className="notes-search"/>
         {
           this.props.memos && this.props.memos.map((elem, index) => {
             return (

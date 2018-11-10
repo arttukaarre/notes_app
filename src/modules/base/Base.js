@@ -20,6 +20,7 @@ class Base extends Component {
 
     this.state = {
       memos: [],
+      filteredMemos: [],
       activeMemo: {},
       activeMemoId: ""
     }
