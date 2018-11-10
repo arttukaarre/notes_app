@@ -4,6 +4,10 @@ import Autocomplete from "./Autocomplete"
 
 class SearchWrapper extends Component {
 
+  handleChange = (e) => {
+    this.props.filterMemosByTagNames(e.currentTarget.value)
+  }
+
   render() {
 
     // Find all tags to be passed to search
@@ -16,7 +20,7 @@ class SearchWrapper extends Component {
       }
     }
 
-    return <Autocomplete filterMemosByTagNames={this.props.filterMemosByTagNames} style={{width: "400px"}} suggestions={tags}/>
+    return <input className="notes-search-input" type="text" onChange={this.handleChange} placeholder="Search by tag name"/>
   }
 }
 
