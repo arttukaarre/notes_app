@@ -12,6 +12,7 @@ class Editor extends Component {
     return (
         <div className="editor">
             <textarea className="editorTextarea" value={this.props.memo.data}
+            placeholder="body"
             onChange={this.handleChange}/>
         </div>
     );

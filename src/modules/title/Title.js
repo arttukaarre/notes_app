@@ -10,7 +10,7 @@ class Title extends Component {
     render() {
         return (
             <div className="titleContainer">
-            <textarea className="titleTextarea"
+            <textarea className="titleTextarea" placeholder="title"
             value={this.props.memo.title}
             onChange={this.handleChange}/>
             </div>

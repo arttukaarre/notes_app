@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-import TokenInput from 'react-customize-token-input';
 
 class TagContainer extends Component {
-    componentDidMount(){
-        console.log(this.props.tags)
+    handleChange = (event) => {
+        let newMemo = this.props.memo;
+        newMemo.tags = event.target.value.split(",");
+        this.props.saveMemo(newMemo, () => {console.log("moi")});
     }
 
     render() {
         return (
             <div className="tagContainer">
-                <TokenInput placeholder="Add a tag" defaultData={this.props.memo.tags}/>
+                <textarea className="tagTextarea" placeholder="enter tags friend"
+                value={this.props.memo.tags}
+                onChange={this.handleChange}/>
             </div>
         );
     }
