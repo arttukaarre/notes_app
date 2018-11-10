@@ -5,10 +5,6 @@ import SearchWrapper from "../search/SearchWrapper";
 
 class ListWrapper extends Component {
 
-  constructor(props) {
-    super(props)
-  }
-
   componentDidMount(){
 
   }

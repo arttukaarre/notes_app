@@ -5,11 +5,6 @@ import Editor from '../editor/Editor';
 import '../../App.css';
 
 class EditorWrapper extends Component {
-
-  constructor(props){
-    super(props);
-  }
-
   render() {
     return (
         <div className="editorWrapper">
