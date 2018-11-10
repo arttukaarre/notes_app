@@ -44,7 +44,7 @@ class Base extends Component {
 
     console.debug("Finding all data")
     this.findAllMemos((data) => {
-      this.setState({ memos: data })
+      this.setState({ memos: data, filteredMemos: data })
     })
 
 
@@ -54,7 +54,7 @@ class Base extends Component {
     this.setState({activeMemo: activeMemo});
   }
 
-  filterMemosByTagNames = (tags, callback) => {
+  filterMemosByTagNames = (tags) => {
     if (!Array.isArray(tags)){
       tags = [tags]
     }
@@ -71,7 +71,8 @@ class Base extends Component {
         (err, data) => {
           console.debug("Searched memos with tags: ", tags);
           console.debug("Found memos: ", data);
-          callback(data);
+          //callback(data);
+          this.setState({filteredMemos: data})
         })
   }
 
@@ -147,7 +148,7 @@ class Base extends Component {
               findAllMemos={this.findAllMemos}
               setActiveMemo={this.setActiveMemo}
               removeAllMemos={this.removeAllMemos}
-              memos={this.state.memos}
+              memos={this.state.filteredMemos}
           />
           <EditorWrapper
               memo={this.state.activeMemo}
